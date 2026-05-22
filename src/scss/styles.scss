@@ -1,0 +1,25 @@
+// Отключаем всё, что не нужно на странице (сетка, кнопки, модалка — останутся)
+$enable-cssgrid: false;
+$enable-forms: false;
+$enable-navbar: false;
+$enable-cards: false;
+$enable-accordion: false;
+$enable-alerts: false;
+$enable-badges: false;
+$enable-breadcrumbs: false;
+$enable-carousel: false;
+$enable-dropdowns: false;
+$enable-list-group: false;
+$enable-navs: false;
+$enable-pagination: false;
+$enable-popovers: false;
+$enable-progress: false;
+$enable-spinners: false;
+$enable-toasts: false;
+$enable-tooltips: false;
+$enable-validation-icons: false;
+$enable-dark-mode: false;
+$enable-deprecation-messages: false;
+
+// Импортируем всё сразу (но с отключёнными частями)
+@import "bootstrap/scss/bootstrap";
