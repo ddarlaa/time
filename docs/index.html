@@ -3,17 +3,84 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TS + Luxon Clock</title>
-    <!-- Bootstrap CDN для адаптивности -->
+    <title>Bootstrap + Luxon | Модальное окно со временем</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script type="module" crossorigin src="/time/assets/index-YB518wRI.js"></script>
+    <!-- Luxon CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    <style>
+      /* Дополнительно, чтобы центральная колонка позволяла кнопке растягиваться по высоте */
+      .row.min-vh-100 {
+        min-height: 100vh;
+      }
+      .full-height {
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
-    <main class="d-flex justify-content-center align-items-center" style="min-height:100dvh;font-family:system-ui,Segoe UI,Roboto,Arial">
-      <div class="text-center">
-        <h1 id="clock" class="display-1 fw-bold">--.--.- --:--:--</h1>
-        <p class="lead">Локальное время: <code>dd.LL.y HH:mm:ss</code></p>
+    <!-- Контейнер с тремя колонками (2-8-2) и вертикальным центрированием -->
+    <div class="container-fluid">
+      <div class="row min-vh-100 align-items-center">
+        <!-- Левая пустая колонка (2) -->
+        <div class="col-2"></div>
+
+        <!-- Центральная колонка (8) с кнопкой на всю высоту -->
+        <div class="col-8 d-flex full-height">
+          <button 
+            id="showTimeBtn" 
+            class="btn btn-danger btn-lg w-100 flex-fill"
+            data-bs-toggle="modal" 
+            data-bs-target="#timeModal"
+            style="font-size: 2rem;"
+          >
+            Показать время
+          </button>
+        </div>
+
+        <!-- Правая пустая колонка (2) -->
+        <div class="col-2"></div>
       </div>
-    </main>
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="timeModalLabel">Дарья Пугина</h5>  
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body text-center fs-3">
+            <!-- Здесь Luxon вставит текущее время -->
+            <span id="currentDateTime">--.--.---- --:--:--</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (включает Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Функция обновления даты и времени через Luxon
+      function updateDateTime() {
+        const now = luxon.DateTime.local();           // текущее локальное время
+        const formatted = now.toFormat('dd.MM.yyyy HH:mm:ss');
+        document.getElementById('currentDateTime').textContent = formatted;
+      }
+
+      // При загрузке страницы один раз покажем время в модальном окне
+      updateDateTime();
+
+      // Обновляем содержимое каждый раз перед открытием модального окна
+      const modalElement = document.getElementById('timeModal');
+      modalElement.addEventListener('show.bs.modal', function () {
+        updateDateTime();
+      });
+    </script>
   </body>
 </html>
